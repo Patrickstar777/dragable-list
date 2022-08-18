@@ -30,15 +30,15 @@ function ArrayItem(props) {
     }
     if (!e.currentTarget.classList.contains(animateName)) {
       e.currentTarget.classList.add(animateName);
-      setOverElement(e.currentTarget);
     }
+    setOverElement(e.currentTarget);
   }
   const handleOnDragEnd = (e) => {
     e.preventDefault();
     let _dataList = dataList;
-    console.log(e.target.classList);
     overElement.classList.remove(styles.dragUp, styles.dragDown, styles.topDragDown);
     const from = deepClone(_dataList[dragElement.dataset.index]);
+    console.log(overElement.dataset.index);
     _dataList.splice(dragElement.dataset.index, 1);
     _dataList.splice(overElement.dataset.index, 0, from);
     setDataList([..._dataList])
