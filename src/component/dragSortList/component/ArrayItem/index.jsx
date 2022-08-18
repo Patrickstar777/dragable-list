@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss'
-// import {handleOnDragStart,handleOnDrag,handleOnDragOver,handleOnDragEnd} from '../../api/dragApi'
+import { IconHandle } from '@douyinfe/semi-icons';
 import { deepClone } from '../../api'
 function ArrayItem(props) {
-  const { options = [], useDragHandle = false } = props;
+  const { options = [], useDragHandle = false, renderType = '' } = props;
   const [dataList, setDataList] = useState(options);
   const [dragElement, setDragElement] = useState();
   const [overElement, setOverElement] = useState();
-
-
 
   const handleOnDragStart = (e) => {
     e.currentTarget.style.backgroundColor = '#fafafa';
@@ -23,8 +21,7 @@ function ArrayItem(props) {
     const dragIndex = dragElement.dataset.index;
     const overIndex = e.currentTarget.dataset.index;
     let animateName = dragIndex > overIndex ? styles.dragUp : styles.dragDown;
-    animateName=dragIndex===overIndex?null:animateName;
-    console.log(animateName);
+    animateName = dragIndex === overIndex ? null : animateName;
     if (overElement && e.currentTarget.dataset.index !== overElement.dataset.index) {
       overElement.classList.remove(styles.dragUp, styles.dragDown, styles.topDragDown);
     }
@@ -38,13 +35,13 @@ function ArrayItem(props) {
     let _dataList = dataList;
     overElement.classList.remove(styles.dragUp, styles.dragDown, styles.topDragDown);
     const from = deepClone(_dataList[dragElement.dataset.index]);
-    console.log(overElement.dataset.index);
     _dataList.splice(dragElement.dataset.index, 1);
     _dataList.splice(overElement.dataset.index, 0, from);
     setDataList([..._dataList])
     e.currentTarget.style.opacity = '1';
     e.currentTarget.style.backgroundColor = ''
   }
+
 
 
   return (
@@ -59,16 +56,16 @@ function ArrayItem(props) {
             onDrag={handleOnDrag}
             onDragEnd={handleOnDragEnd}
             onDragOver={handleOnDragOver}
-            key={index}
+            key={renderType === 'array' ? index : item.value}
             data-index={index}
             className={styles.dragItem}
           >
-            <span>拖拽图标</span>
+            {useDragHandle ? <span><IconHandle /></span> : null}
             <span>
               <span className={styles.forbiddenDrag}
                 draggable={false}
                 onMouseDown={useDragHandle ? e => e.preventDefault() : null}
-              >==================={item}</span>
+              >{renderType==='array'? item:item.label}</span>
             </span>
           </li>
         ))}
