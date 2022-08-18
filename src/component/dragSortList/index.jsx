@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss'
 import ArrayItem from './component/ArrayItem';
 function DragSortList(props) {
-  const { options = [], useDragHandle = false, dragContent } = props;
-  const [dataList, setDataList] = useState(options);
-  const [dragElement, setDragElement] = useState();
-  const [overElement, setOverElement] = useState();
+  const { options = [], useDragHandle = false, renderlist } = props;
   const [renderType, setRenderType] = useState();
 
   useEffect(() => {
-    if (dragContent) {
-      setRenderType('dragContent');
+    if (renderlist) {
+      setRenderType('renderlist');
     } else if (options) {
       if (typeof options[0] !== 'object') {
         setRenderType('array');
@@ -29,7 +26,7 @@ function DragSortList(props) {
           return (<ArrayItem options={options} useDragHandle/>);
         }
       case 'object': return <></>; break;
-      case 'dragContent': return <></>; break;
+      case 'renderlist': return <></>; break;
       default: return <div>无数据</div>
     }
   }
