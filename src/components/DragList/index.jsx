@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss'
-import ArrayItem from './component/ArrayItem';
-import { useRenderType } from '../dragSortList/api/hooks'
-function DragSortList(props) {
-  const { options = [], useDragHandle = false, renderlist } = props;
+import ArrayItem from '../ArrayItem';
+function DragList(props) {
+  const { options = [], useDragHandle = false, renderlist, children } = props;
   const [renderType, setRenderType] = useState();
 
   useEffect(() => {
-    
+
     if (renderlist) {
       setRenderType('renderlist');
-    } else if (options) {
+    } else if (options.length) {
       if (typeof options[0] !== 'object') {
         setRenderType('array');
       } else {
@@ -22,15 +21,16 @@ function DragSortList(props) {
   }, [])
 
   const content = () => {
+    console.log(props);
     switch (renderType) {
       case 'array':
         {
-          return (<ArrayItem options={options} useDragHandle={useDragHandle} renderType={renderType} />);
+          return (<ArrayItem options={options} useDragHandle={useDragHandle} renderType={renderType} children={children} />);
         }
-      case 'object':         {
-        return (<ArrayItem options={options} useDragHandle={useDragHandle} renderType={renderType} />);
+      case 'object': {
+        return (<ArrayItem options={options} useDragHandle={useDragHandle} renderType={renderType} children={children} />);
       }
-      case 'renderlist': return <></>; break;
+      case 'renderlist': return <>{children}</>; break;
       default: return <div>No list data</div>
     }
   }
@@ -39,10 +39,7 @@ function DragSortList(props) {
       <div className={styles.dragContent}>
         {content()}
       </div>
-
     </>
-
-
   );
 }
-export default DragSortList
+export default DragList;

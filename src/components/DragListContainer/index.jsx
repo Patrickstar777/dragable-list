@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss'
 import { IconHandle } from '@douyinfe/semi-icons';
-import { deepClone } from '../../api'
-function ArrayItem(props) {
-  const { options = [], useDragHandle = false, renderType = '' } = props;
+import { deepClone } from '@api'
+function DragListContainer(props) {
+  const { options = [], useDragHandle = false, renderType = '', children} = props;
   const [dataList, setDataList] = useState(options);
   const [dragElement, setDragElement] = useState();
   const [overElement, setOverElement] = useState();
@@ -70,9 +70,10 @@ function ArrayItem(props) {
           </li>
         ))}
       </ul>
+      {children}
     </>
 
 
   );
 }
-export default ArrayItem;
+export default DragListContainer;

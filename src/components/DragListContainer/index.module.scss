@@ -1,0 +1,47 @@
+
+    .dragList {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+
+        .dragItem {
+            padding: 8px;
+            border: .5px solid #ccc;
+            .forbiddenDrag {
+                margin-left: 5px;
+            }
+
+          
+        }
+        .dragUp {
+            animation: dragup ease 0.3s 1;
+            animation-fill-mode: forwards;
+        }
+
+        .dragDown {
+            animation: dragdown ease 0.3s 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes dragup {
+            from {
+                margin-top: 10px;
+                
+            }
+
+            to {
+                margin-top: 40px;
+            }
+        }
+
+        @keyframes dragdown {
+            from {
+                margin-bottom: 10px;
+            }
+
+            to {
+                margin-bottom: 40px;
+            }
+        }
+
+    }
