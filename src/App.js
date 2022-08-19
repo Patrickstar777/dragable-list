@@ -15,9 +15,16 @@ function App() {
   )
   return (
     <>
-      <DragList options={obj} useDragHandle ></DragList>
-      <div>sss</div>
-      {/* <DragListContainer options={obj} useDragHandle ></DragListContainer> */}
+    <div>
+      <div>传入数据即可使用的拖拽列表</div>
+    <DragList options={obj} useDragHandle ></DragList>
+    </div>
+
+<div>
+  <div>还没开发完的自定义列表项</div>
+<DragListContainer options={obj} useDragHandle ></DragListContainer>
+</div>
+
     </>
   )
 }

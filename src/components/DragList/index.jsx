@@ -21,7 +21,6 @@ function DragList(props) {
   }, [])
 
   const content = () => {
-    console.log(props);
     switch (renderType) {
       case 'array':
         {

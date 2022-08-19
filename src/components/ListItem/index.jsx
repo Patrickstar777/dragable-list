@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss'
 import { IconHandle } from '@douyinfe/semi-icons';
-import ListItem from '../ListItem';
 import { deepClone } from '@api'
-function DragListContainer(props) {
-  const { options = [], useDragHandle = false, renderType = '', children } = props;
+function ListItem(props) {
+  const { options = [],
+    useDragHandle = false,
+    listKey,
+    listIndex,
+    renderItem,
+    onDragChange,
+    onOverChange,
+  } = props;
   const [dataList, setDataList] = useState(options);
   const [dragElement, setDragElement] = useState();
   const [overElement, setOverElement] = useState();
 
   const handleDragStart = (e) => {
-    console.log('e',e.currentTarget);
     e.currentTarget.style.backgroundColor = '#fafafa';
     setDragElement(e.currentTarget);
   }
@@ -48,23 +53,25 @@ function DragListContainer(props) {
 
   return (
     <>
-      <ul className={styles.dragList}
-        onDragOver={e => e.preventDefault()}
+      <li
+        draggable
+        onDragStart={e => onDragChange(e)}
+        onDrag={handleOnDrag}
+        onDragEnd={handleOnDragEnd}
+        onDragOver={e => onOverChange(e)}
+        key={listKey}
+        data-index={listIndex}
+        className={styles.dragItem}
       >
-        {dataList.map((item, index) => (
-          <ListItem
-            useDragHandle={useDragHandle}
-            listkey={renderType === 'array' ? index : item.value}
-            listIndex={index}
-            renderItem={renderType === 'array' ? item : item.label}
-            onDragChange={handleDragStart}
-            />
-        ))}
-      </ul>
-      {children}
+        {useDragHandle ? <span><IconHandle /></span> : null}
+        <span className={styles.forbiddenDrag}
+          draggable={false}
+          onMouseDown={useDragHandle ? e => e.preventDefault() : null}
+        >{renderItem}</span>
+      </li>
     </>
 
 
   );
 }
-export default DragListContainer;
+export default ListItem;
