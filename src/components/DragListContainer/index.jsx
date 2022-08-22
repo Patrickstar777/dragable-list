@@ -4,13 +4,13 @@ import { IconHandle } from '@douyinfe/semi-icons';
 import ListItem from '../ListItem';
 import { deepClone } from '@api'
 function DragListContainer(props) {
-  const { options = [], useDragHandle = false, renderType = '', children } = props;
+  const { options = [], useDragHandle = false,children ,key,handleData} = props;
   const [dataList, setDataList] = useState(options);
   const [dragElement, setDragElement] = useState();
   const [overElement, setOverElement] = useState();
 
   const handleDragStart = (e) => {
-    console.log('e',e.currentTarget);
+    console.log('e', e.currentTarget);
     e.currentTarget.style.backgroundColor = '#fafafa';
     setDragElement(e.currentTarget);
   }
@@ -18,7 +18,7 @@ function DragListContainer(props) {
     e.preventDefault();
     e.currentTarget.style.opacity = '0';
   }
-  const handleOnDragOver = (e) => {
+  const handleDragOver = (e) => {
     e.preventDefault();
     const dragIndex = dragElement.dataset.index;
     const overIndex = e.currentTarget.dataset.index;
@@ -32,7 +32,7 @@ function DragListContainer(props) {
     }
     setOverElement(e.currentTarget);
   }
-  const handleOnDragEnd = (e) => {
+  const handleDragEnd = (e) => {
     e.preventDefault();
     let _dataList = dataList;
     overElement.classList.remove(styles.dragUp, styles.dragDown, styles.topDragDown);
@@ -44,6 +44,10 @@ function DragListContainer(props) {
     e.currentTarget.style.backgroundColor = ''
   }
 
+  useEffect(()=>{
+    console.log(children);
+  },[])
+
 
 
   return (
@@ -51,17 +55,20 @@ function DragListContainer(props) {
       <ul className={styles.dragList}
         onDragOver={e => e.preventDefault()}
       >
-        {dataList.map((item, index) => (
+        {children.map((item, index) => (
           <ListItem
             useDragHandle={useDragHandle}
-            listkey={renderType === 'array' ? index : item.value}
+            key={key?key:index}
             listIndex={index}
-            renderItem={renderType === 'array' ? item : item.label}
-            onDragChange={handleDragStart}
-            />
+            handleDragStart={handleDragStart}
+            handleDragOver={handleDragOver}
+            handleDragEnd={handleDragEnd}
+            handleOnDrag={handleOnDrag}
+          >{item.props.children}</ ListItem>
         ))}
+             
       </ul>
-      {children}
+
     </>
 
 
